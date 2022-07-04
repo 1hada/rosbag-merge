@@ -1,0 +1,52 @@
+[build-system]
+
+# requires is a list of packages that are needed to build your package. 
+# You don’t need to install them; 
+# build frontends like pip will install them automatically in a temporary, 
+# isolated virtual environment for use during the build process
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# see https://hatch.pypa.io/latest/config/build/#packages for more details on packages options
+[tool.hatch.build]
+sources = ["src/*"]
+
+# this is the [project] table 
+[project]
+# add the distribution name of the package, the tar ball and python wheel use this name, this name goes the /home/$USER/.local/lib/python3.8/site-packages/
+name = "rosbag_merge"
+
+# version is the package version. See the version specifier specification
+# for more details on versions. Some build backends allow it to be 
+# specified another way, such as from a file or a git tag.
+version = "0.0.1"
+authors = [
+  { name="Jonathan Sanabria", email="jonsanria@gmail.com" },
+]
+description = "A gathering of tools for merging rosbags and saving their topic information to csv."
+readme = "README.md"
+license = { file="LICENSE" }
+
+# installers like pip use this to check for matching python versions
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: Apache-2.0 License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "rosbag",
+    "rospy",
+    "dask",
+    "pandas",
+    "icecream",
+]
+
+# this installs an executable in /home/$USER/.local/bin/rosbag-tools
+[project.scripts]
+rosbag-merge = "rosbag_merge.main:main"
+
+[project.urls]
+"Homepage" = "https://github.com/pypa/sampleproject/TODO/FOR TESTING"
+"Bug Tracker" = "https://github.com/pypa/sampleproject/issues/TODO/FOR TESTING"
