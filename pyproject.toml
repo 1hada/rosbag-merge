@@ -19,7 +19,7 @@ name = "rosbag_merge"
 # version is the package version. See the version specifier specification
 # for more details on versions. Some build backends allow it to be 
 # specified another way, such as from a file or a git tag.
-version = "0.0.1"
+version = "0.0.2"
 authors = [
   { name="Jonathan Sanabria", email="jonsanria@gmail.com" },
 ]
@@ -50,5 +50,5 @@ dependencies = [
 rosbag-merge = "rosbag_merge.main:main"
 
 [project.urls]
-"Homepage" = "https://github.com/pypa/sampleproject/TODO/FOR TESTING"
-"Bug Tracker" = "https://github.com/pypa/sampleproject/issues/TODO/FOR TESTING"
+"Homepage" = "https://github.com/1hada/rosbag-merge/"
+"Bug Tracker" = "https://github.com/1hada/rosbag-merge/issues/"
