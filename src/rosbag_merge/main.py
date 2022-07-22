@@ -59,8 +59,22 @@ def parse_args(args)-> argparse.Namespace:
         default=None,#['*'],
         required=False,
     )
+    parser.add_argument('--topic-file', '-f',
+        type=str,
+        help='A file representing a list of topics. One topic per line.',
+        default=None,
+        required=False,
+    )
     # get the arguments from the argument parser
     args = parser.parse_args(args)
+    # make sequence of topics from a topic file
+    if args.topic_file :
+      if not args.topics:
+        args.topics = []
+      with open(args.topic_file) as f:
+          lines = [line.strip() for line in f]
+      args.topics.extend(lines)
+      ic(args.topics)
     # input files into the respective args Namespace
     if len(args.input_paths):
       for path in  args.input_paths:

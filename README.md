@@ -26,6 +26,9 @@ Basic elements for usage are an in path and out path for data being processed an
 ```--topics```
 * Topics which should be filtered. Use this to speed up all of the processing. To use all topics then simply omit the flag.
 
+```--topic-file```
+* Topics which should be filtered. Use this to speed up all of the processing. To use all topics then simply omit the flag. A file representing a list of topics. One topic per line.
+
 ```--write_bag```
 * Including the flag tells ```rosbag-tools``` to write a new bag. Be sure to include an ```--outbag-name```.
 
