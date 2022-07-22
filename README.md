@@ -2,6 +2,13 @@
 
 ### Getting Started
 
+
+```
+pip3 install rosbag-merge
+```
+
+ OR
+
 ```
 python3 -m pip install .
 ```
