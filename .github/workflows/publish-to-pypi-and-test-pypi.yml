@@ -32,6 +32,7 @@ jobs:
         password: ${{ secrets.RSBM_TEST_PYPI_TOKEN }}
         repository_url: https://test.pypi.org/legacy/
     - name: Publish package 📦 to PyPI
+      if: always()
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.RSBM_PYPI_TOKEN }}
