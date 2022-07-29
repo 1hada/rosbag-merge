@@ -95,6 +95,14 @@ def parse_args(args)-> argparse.Namespace:
     if (no_csvs_to_merge):
       ic("unable to merge non-existent (present tense and future) csvs.")
     if (no_outbag_actions or no_input_files or requesting_write_without_output_path or no_csvs_to_merge):
+      if no_outbag_actions : 
+        ic(no_outbag_actions)
+      if no_input_files : 
+        ic(no_input_files)
+      if requesting_write_without_output_path : 
+        ic(requesting_write_without_output_path)
+      if no_csvs_to_merge : 
+        ic(no_csvs_to_merge)
       parser.print_help()
       exit(1)
     return args
