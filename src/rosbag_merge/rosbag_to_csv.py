@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from argparse import Namespace
 from datetime import datetime
 import io
 import os
@@ -211,7 +210,8 @@ class __CsvStreams():
         """A helper to get a formmated filename.
 
         :param form: the format which defines the saved csv
-        :param msg: a ros msg
+        :param full_file_path: The global path to write the csv with.
+        :param topic: the topic name
 
         :return: a file name which is formatted to let users distinguish the csv files.
         """

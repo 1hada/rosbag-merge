@@ -13,8 +13,6 @@ import uuid
 from icecream import ic
 ic.configureOutput(includeContext=True)
 
-ic (sys.argv[1:])
-
 def show_data_on_timeline(df:dd):
   df[['cmd_vel_final.linear.x', 'cmd_vel_final.linear.y']].resample('1m').mean().compute().plot()
   plt.show()

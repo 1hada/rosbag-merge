@@ -56,7 +56,7 @@ def parse_args(args)-> argparse.Namespace:
         type=str,
         nargs='*',
         help='A sequence of topics to include from the input bags.',
-        default=None,#['*'],
+        default=None, # or list of strings ['*'],
         required=False,
     )
     parser.add_argument('--topic-file', '-f',
@@ -118,10 +118,32 @@ def main():
       args.input_csvs.extend(glob.glob(os.path.join(args.global_output_path,"*-single-topic.csv")))
     csv_merge.merge_csvs_using_dask(args.input_csvs)
   else:
-    bag_stream.main(args)
+    bag_stream.main(input_bags=args.input_bags 
+                    ,write_bag=args.write_bag
+                    ,write_csvs=args.write_csvs
+                    ,global_output_path=args.global_output_path
+                    ,outbag_name=args.outbag_name
+                    ,topics=args.topics
+                    ) 
 
 if __name__ == "__main__":
-  main(sys.argv[1:])
+  args = sys.argv[1:]
+  args = parse_args(args)
+  if(args.merge_csvs):
+    # TODO , see why can't make csvs and merge in the same call to main
+    expecting_to_merge_newly_written_csvs = args.write_csvs and (not len(args.input_csvs))
+    if(expecting_to_merge_newly_written_csvs):
+      # gather newly made csvs from the output path
+      args.input_csvs.extend(glob.glob(os.path.join(args.global_output_path,"*-single-topic.csv")))
+    csv_merge.merge_csvs_using_dask(args.input_csvs)
+  else:
+    bag_stream.main(input_bags=args.input_bags 
+                    ,write_bag=args.write_bag
+                    ,write_csvs=args.write_csvs
+                    ,global_output_path=args.global_output_path
+                    ,outbag_name=args.outbag_name
+                    ,topics=args.topics
+                    ) 
 
 # explicitly define the outward facing API of this module
 __all__ = [ main.__name__ ]
