@@ -81,7 +81,7 @@ def create_parser()-> argparse.ArgumentParser:
     parser.add_argument('--global_output_path', '-gop',
         type=str,
         help='The output path for all outputted files. (global paths)',
-        default=None,
+        default="./",
     )
     parser.add_argument('--outbag_name', '-obn',
         type=str,
@@ -108,7 +108,7 @@ def create_parser()-> argparse.ArgumentParser:
         type=str,
         nargs='+',
         help='A list of input directories with bag files. (global paths)',
-        default=[],
+        default="./",
     )
     # add an argument for the topics to filter
     parser.add_argument('--topics', '-t',
@@ -133,7 +133,9 @@ def parse_args(args)-> argparse.Namespace:
     return parser.parse_args(args)
     
 
-def main(args:argparse.Namespace):
+def main(args:argparse.Namespace=None):
+    if not args:
+        args = parse_args(sys.argv[1:])
     # Refine arguments here so simplified args can be used.
     args = refine_args(args)
     if args is None:
