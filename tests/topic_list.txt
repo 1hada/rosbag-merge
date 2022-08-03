@@ -1,3 +1,6 @@
+/imu
+/cmd_vel_rc100
+/odom
 /gps/fix
 /tf
 /rosout
