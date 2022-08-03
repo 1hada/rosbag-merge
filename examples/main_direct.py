@@ -5,7 +5,9 @@ From the cloned rosbag-merge directory :
 
   python3 -m pip install .
   python3 examples/main_direct.py
-  
+
+TODO automate tests via workflow or via toml. 
+Avoiding setup.py since it is to be considered deprecated.
 """
 
 from rosbag_merge.main import main
