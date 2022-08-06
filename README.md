@@ -58,6 +58,11 @@ export INPUT_TOPICS='/topic/namespace_1 /topic/namespace_2 /topic/namespace_3'
 
 ### Merge Bag Files
 
+Merge all the bag files from the current directory.
+```
+rosbag-merge --write_bag --outbag_name $OUTBAG_NAME
+```
+
 Make a merged bage with all topics.
 ```
 rosbag-merge --input_paths $IN_PATH --global_output_path $OUT_PATH --outbag_name $OUTBAG_NAME --write_bag
