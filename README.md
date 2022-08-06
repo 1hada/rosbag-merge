@@ -25,9 +25,9 @@ Basic elements for usage are an in path and out path for data being processed an
 * Define an outbag name using the flag.
 
 ```--input_paths``` 
-* Define global input paths for the data of interest. (csv or bags)
+* Define input paths for the data of interest. (csv or bags)
 
-```--global_output_path```
+```--output_path```
 * Define where to save newly created data (csv or bags)
 
 ```--topics```
@@ -50,8 +50,8 @@ Basic elements for usage are an in path and out path for data being processed an
 ### Some environment variables
 
 ```
-export IN_PATH=/global/path/to/data
-export OUT_PATH=/global/path/to/data
+export IN_PATH=/path/to/data
+export OUT_PATH=/path/to/data
 export OUTBAG_NAME=new-bag-name
 export INPUT_TOPICS='/topic/namespace_1 /topic/namespace_2 /topic/namespace_3'
 ```
@@ -65,27 +65,27 @@ rosbag-merge --write_bag --outbag_name $OUTBAG_NAME
 
 Make a merged bage with all topics.
 ```
-rosbag-merge --input_paths $IN_PATH --global_output_path $OUT_PATH --outbag_name $OUTBAG_NAME --write_bag
+rosbag-merge --input_paths $IN_PATH --output_path $OUT_PATH --outbag_name $OUTBAG_NAME --write_bag
 ```
 
 To merge bag files with select topics, and make single topics csvs.
 ```
-rosbag-merge --input_paths $IN_PATH --global_output_path $OUT_PATH --outbag_name $OUTBAG_NAME --topics $INPUT_TOPICS --write_bag 
+rosbag-merge --input_paths $IN_PATH --output_path $OUT_PATH --outbag_name $OUTBAG_NAME --topics $INPUT_TOPICS --write_bag 
 ```
 
 To merge bag files with select topics, and make single topics csvs.
 ```
-rosbag-merge --input_paths $IN_PATH --global_output_path $OUT_PATH --outbag_name $OUTBAG_NAME --write_bag --write_csvs 
+rosbag-merge --input_paths $IN_PATH --output_path $OUT_PATH --outbag_name $OUTBAG_NAME --write_bag --write_csvs 
 ```
 
 Loop through the bag msgs and make single topics csvs.
 ```
-rosbag-merge --input_paths $IN_PATH --global_output_path $OUT_PATH --outbag_name $OUTBAG_NAME --write_csvs 
+rosbag-merge --input_paths $IN_PATH --output_path $OUT_PATH --outbag_name $OUTBAG_NAME --write_csvs 
 ```
 
 Loop through the bag msgs and make single topics csvs.
 ```
-rosbag-merge --input_paths $IN_PATH --global_output_path $OUT_PATH --outbag_name $OUTBAG_NAME --write_csvs 
+rosbag-merge --input_paths $IN_PATH --output_path $OUT_PATH --outbag_name $OUTBAG_NAME --write_csvs 
 ```
 
 
@@ -93,6 +93,6 @@ rosbag-merge --input_paths $IN_PATH --global_output_path $OUT_PATH --outbag_name
 
 For now, merging csvs must be done **after** making the CSVs on a previous command.
 ```
-rosbag-merge --input_paths $IN_PATH --global_output_path $OUT_PATH  --merge_csvs
+rosbag-merge --input_paths $IN_PATH --output_path $OUT_PATH  --merge_csvs
 ```
 

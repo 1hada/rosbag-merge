@@ -53,8 +53,8 @@ def refine_args(args:argparse.Namespace)-> argparse.Namespace:
     if (no_outbag_actions):
         ic("Writing bags requires an outbag suffix.")
     no_input_files = (("input_bags" not in args) or (not len(args.input_bags))) and (("input_csvs" not in args) or (not len(args.input_csvs)))
-    args.write_bag = True if args.global_output_path and args.outbag_name else False
-    requesting_write_without_output_path =  not args.global_output_path and (args.merge_csvs or args.write_csvs or args.write_bag)
+    args.write_bag = True if args.output_path and args.outbag_name else False
+    requesting_write_without_output_path =  not args.output_path and (args.merge_csvs or args.write_csvs or args.write_bag)
     no_csvs_to_merge = (("input_csvs" not in args) or not (len(args.input_csvs) or args.write_csvs)) and args.merge_csvs
     if (no_csvs_to_merge):
         ic("unable to merge non-existent (present tense and future) csvs.")
@@ -78,7 +78,7 @@ def create_parser()-> argparse.ArgumentParser:
     # create an argument parser to read arguments from the command line
     parser = argparse.ArgumentParser(description=__doc__)
     # add an argument for the output bag to create
-    parser.add_argument('--global_output_path', '-gop',
+    parser.add_argument('--output_path', '-op',
         type=str,
         help='The output path for all outputted files. (global paths)',
         default="./",
@@ -145,13 +145,13 @@ def main(args:argparse.Namespace=None):
         expecting_to_merge_newly_written_csvs = args.write_csvs and (not len(args.input_csvs))
         if(expecting_to_merge_newly_written_csvs):
             # gather newly made csvs from the output path
-            args.input_csvs.extend(glob.glob(os.path.join(args.global_output_path,"*-single-topic.csv")))
+            args.input_csvs.extend(glob.glob(os.path.join(args.output_path,"*-single-topic.csv")))
             csv_merge.merge_csvs_using_dask(args.input_csvs)
     else:
         bag_stream.main(input_bags=args.input_bags 
                         ,write_bag=args.write_bag
                         ,write_csvs=args.write_csvs
-                        ,global_output_path=args.global_output_path
+                        ,output_path=args.output_path
                         ,outbag_name=args.outbag_name
                         ,topics=args.topics
                         ) 

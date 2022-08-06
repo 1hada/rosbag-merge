@@ -25,18 +25,18 @@ class __CsvStreams():
         self.replace_newline_char = True
         self.newline_char_replacement = '<-NEW-LINE->>,<<-NEW-LINE>' # using new line as csv but retaining history of new line existence
 
-    def write_data(self, topic: str, msg: object, time: rospy.rostime.Time , input_bag_file : str, global_output_path: str,use_header: bool = True):
+    def write_data(self, topic: str, msg: object, time: rospy.rostime.Time , input_bag_file : str, output_path: str,use_header: bool = True):
         """Write data to a csv file.
 
         :param topic: the topic name
         :param msg: the ros msg
         :param input_bag_file: The input bag file name which is used to construct the output csv name
-        :param global_output_path: The global path to write the csv with.
+        :param output_path: The global path to write the csv with.
         :param write_header: a bool to write a header or not.
 
         :return: None
         """
-        stream = self.get_stream(topic,msg,input_bag_file, global_output_path, use_header)
+        stream = self.get_stream(topic,msg,input_bag_file, output_path, use_header)
         # DatetimeIndex format
         date_time_str = datetime.fromtimestamp(
                 time.to_time()).strftime('%Y-%m %d %H:%M:%S.%f')
@@ -44,13 +44,13 @@ class __CsvStreams():
         self.message_to_csv(stream, msg)
         stream.write('\n')
 
-    def get_stream(self, topic: str, msg : object, input_bag_file : str, global_output_path: str, write_header: bool = True) -> io.TextIOWrapper:
+    def get_stream(self, topic: str, msg : object, input_bag_file : str, output_path: str, write_header: bool = True) -> io.TextIOWrapper:
         """Open/access a file stream, write a header in the file, and return it.
 
         :param topic: the topic name
         :param msg: the ros msg
         :param input_bag_file: The input bag file name which is used to construct the output csv name
-        :param global_output_path: The global path to write the csv with.
+        :param output_path: The global path to write the csv with.
         :param write_header: a bool to write a header or not.
 
         :return: A file ptr/stream which has been opened.
@@ -59,7 +59,7 @@ class __CsvStreams():
             stream = self.streamdict[topic]
         else:
             # the input bag name is used to write the outputted csv
-            outpath_with_file = os.path.join(global_output_path, os.path.basename( input_bag_file ))
+            outpath_with_file = os.path.join(output_path, os.path.basename( input_bag_file ))
             stream = open(
                 self.format_csv_filename(
                     self.output_file_format,
