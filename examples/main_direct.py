@@ -16,7 +16,7 @@ import os
 
 main_args = argparse.Namespace()
 main_args.input_paths = [f"{os.getcwd()}/tests/data/raw"]
-main_args.global_output_path = f"{os.getcwd()}/tests/data"
+main_args.output_path = f"{os.getcwd()}/tests/data"
 main_args.outbag_name = "merged_bag"
 main_args.write_bag = True
 main_args.topic_file = f"{os.getcwd()}/tests/topic_list.txt"
