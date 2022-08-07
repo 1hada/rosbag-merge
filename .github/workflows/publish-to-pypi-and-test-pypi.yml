@@ -27,11 +27,11 @@ jobs:
         --outdir dist/
         .
     - name: Publish package 📦 to PyPI
-      uses: pypa/gh-action-pypi-publish@master
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.RSBM_PYPI_TOKEN }}
     - name: Publish package 📦 to Test PyPI
-      uses: pypa/gh-action-pypi-publish@master
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.RSBM_TEST_PYPI_TOKEN }}
         repository_url: https://test.pypi.org/legacy/
