@@ -1,8 +1,8 @@
-dask==2022.6.1
-icecream==2.1.2
-matplotlib==3.1.2
-pandas==1.4.3
-PyYAML==6.0
-rosbag==1.15.14
-rospy==1.15.14
-tqdm==4.64.0
+dask
+icecream
+matplotlib
+pandas
+PyYAML
+rosbag
+rospy
+tqdm
