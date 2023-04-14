@@ -1,6 +1,9 @@
 name: Publish rosbag-merge 📦 to to PyPI and TestPyPI
 
-on: release
+on:
+  push:
+    tags:        
+      - 'v*'
 
 jobs:
   build-n-publish:
