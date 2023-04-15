@@ -19,7 +19,7 @@ name = "rosbag_merge"
 # version is the package version. See the version specifier specification
 # for more details on versions. Some build backends allow it to be 
 # specified another way, such as from a file or a git tag.
-version = "0.1.0"
+version = "0.1.1"
 authors = [
   { name="Jonathan Sanabria", email="jonsanria@gmail.com" },
 ]
@@ -38,13 +38,9 @@ classifiers = [
 ]
 
 dependencies = [
-    "rosbag",
-    "rospy",
-    "dask",
-    "pandas",
+    "rosbags",
     "icecream",
     "tqdm",
-    "numpy==1.21" # wait for dask to solve solve AttributeError: module 'numpy' has no attribute 'typeDict'
 ]
 
 # this installs an executable in /home/$USER/.local/bin/rosbag-tools
