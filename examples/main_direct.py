@@ -18,11 +18,10 @@ main_args = argparse.Namespace()
 main_args.input_paths = [os.path.join(os.getcwd(),"tests","data","raw")]
 main_args.output_path = os.path.join(os.getcwd(),"tests","data")
 main_args.outbag_name = "merged_bag"
-main_args.write_bag = True
 main_args.topic_file = os.path.join(os.getcwd(),"tests","topic_list.txt")
 # remove previous bag
 try:
-    os.remove(os.remove(os.path.join(main_args.output_path,"merged_bag.bag")))
+    os.remove(os.path.join(main_args.output_path,"merged_bag.bag"))
     print("% s removed successfully" % path)
 except OSError as error:
     print(error)
