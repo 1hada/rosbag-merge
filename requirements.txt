@@ -6,3 +6,4 @@ PyYAML
 rosbag
 rospy
 tqdm
+numpy==1.21
