@@ -20,5 +20,7 @@ main_args.output_path = f"{os.getcwd()}/tests/data"
 main_args.outbag_name = "merged_bag"
 main_args.write_bag = True
 main_args.topic_file = f"{os.getcwd()}/tests/topic_list.txt"
+# remove previous bag
+os.remove(os.path.join(main_args.output_path,"merged_bag.bag"))
 # Call the function
 main(main_args)

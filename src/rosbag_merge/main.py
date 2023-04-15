@@ -1,8 +1,7 @@
 #! /usr/bin/env python3
-from . import bag_stream
-from . import csv_merge
 import argparse
 
+from . import bag_stream
 import os
 import sys
 import glob 
@@ -18,14 +17,6 @@ This main file is meant to help interface users with the python package.
 def refine_args(args:argparse.Namespace)-> argparse.Namespace:
     # Refine the arguments to handle simplified inputs such as directories, files with lists of topics, etc.
     retval = args
-
-    # Handle default arguments
-    if "merge_csvs" not in args:
-        args.merge_csvs = False
-    if "write_csvs" not in args:
-        args.write_csvs = False
-    if "write_bag" not in args:
-        args.write_bag = False
 
     # make sequence of topics from a topic file
     if args.topic_file :
@@ -52,21 +43,16 @@ def refine_args(args:argparse.Namespace)-> argparse.Namespace:
     no_outbag_actions = (not args.outbag_name) and (args.write_bag) 
     if (no_outbag_actions):
         ic("Writing bags requires an outbag suffix.")
-    no_input_files = (("input_bags" not in args) or (not len(args.input_bags))) and (("input_csvs" not in args) or (not len(args.input_csvs)))
+    no_input_files = (("input_bags" not in args) or (not len(args.input_bags)))
     args.write_bag = True if args.output_path and args.outbag_name else False
     requesting_write_without_output_path =  not args.output_path and (args.merge_csvs or args.write_csvs or args.write_bag)
-    no_csvs_to_merge = (("input_csvs" not in args) or not (len(args.input_csvs) or args.write_csvs)) and args.merge_csvs
-    if (no_csvs_to_merge):
-        ic("unable to merge non-existent (present tense and future) csvs.")
-    if (no_outbag_actions or no_input_files or requesting_write_without_output_path or no_csvs_to_merge):
+    if (no_outbag_actions or no_input_files or requesting_write_without_output_path):
         if no_outbag_actions : 
             ic(no_outbag_actions)
         if no_input_files : 
             ic(no_input_files)
         if requesting_write_without_output_path : 
             ic(requesting_write_without_output_path)
-        if no_csvs_to_merge : 
-            ic(no_csvs_to_merge)
         
         create_parser().print_help()
         retval = None  # Invalid args, so make it clear
@@ -89,19 +75,11 @@ def create_parser()-> argparse.ArgumentParser:
         default=None,
     )
     parser.add_argument('--write_bag', action='store_true')
-    parser.add_argument('--write_csvs', action='store_true')
-    parser.add_argument('--merge_csvs', action='store_true')
     # add an argument for the sequence of input bags
     parser.add_argument('--input_bags', '-ib',
         type=str,
         nargs='+',
         help='A list of input bag files. (global paths)',
-        default=[],
-    )
-    parser.add_argument('--input_csvs', '-ic',
-        type=str,
-        nargs='+',
-        help='A list of input csv files. (global paths)',
         default=[],
     )
     parser.add_argument('--input_paths', '-ip',
@@ -140,21 +118,11 @@ def main(args:argparse.Namespace=None):
     args = refine_args(args)
     if args is None:
         return  # Invalid arguments, return
-    if(args.merge_csvs):
-        # TODO , see why can't make csvs and merge in the same call to main
-        expecting_to_merge_newly_written_csvs = args.write_csvs and (not len(args.input_csvs))
-        if(expecting_to_merge_newly_written_csvs):
-            # gather newly made csvs from the output path
-            args.input_csvs.extend(glob.glob(os.path.join(args.output_path,"*-single-topic.csv")))
-            csv_merge.merge_csvs_using_dask(args.input_csvs)
-    else:
-        bag_stream.main(input_bags=args.input_bags 
-                        ,write_bag=args.write_bag
-                        ,write_csvs=args.write_csvs
-                        ,output_path=args.output_path
-                        ,outbag_name=args.outbag_name
-                        ,topics=args.topics
-                        ) 
+    bag_stream.main(input_bags=args.input_bags 
+                    ,output_path=args.output_path
+                    ,outbag_name=args.outbag_name
+                    ,topics=args.topics
+                    ) 
 
 if __name__ == "__main__":
     # Load command line arguments here so that the main function can be called directly from import
