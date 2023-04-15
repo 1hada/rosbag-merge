@@ -88,8 +88,6 @@ def main(input_bags : 'list[str]', topics : 'list[str]', output_path : str, outb
                 except WriterError:
                      pass
             for connection, timestamp, rawdata in read_messages(input_bags, topics=topics):
-                from colorama import Fore, Back, Style
-                print(Fore.RED+f"connection {connection}"+Style.RESET_ALL)
                 # write this message to the output bag
                 output_bag.write(conn_map[connection.topic], timestamp, rawdata)    
     except KeyboardInterrupt:
