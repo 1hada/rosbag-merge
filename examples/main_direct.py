@@ -21,8 +21,9 @@ main_args.outbag_name = "merged_bag"
 main_args.topic_file = os.path.join(os.getcwd(),"tests","topic_list.txt")
 # remove previous bag
 try:
-    os.remove(os.path.join(main_args.output_path,"merged_bag.bag"))
-    print("% s removed successfully" % path)
+    outbag = os.path.join(main_args.output_path,f"{main_args.outbag_name}.bag")
+    os.remove(outbag)
+    print(f"{outbag} removed successfully")
 except OSError as error:
     print(error)
     print("File path can not be removed")
