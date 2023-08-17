@@ -82,7 +82,7 @@ def main(input_bags: 'list[str]', topics: 'list[str]', output_path: str, outbag_
                 try:
                     # we're saving by topic, may cause an error if the md5sum changes
                     conn_map[connection.topic] = output_bag.add_connection(
-                        connection.topic, connection.msgtype, connection.msgdef, connection.md5sum, connection.ext.callerid, connection.ext.latching)
+                        connection.topic, connection.msgtype, latching=connection.ext.latching)
                 except WriterError:
                     pass
             for connection, timestamp, rawdata in read_messages(input_bags, topics=topics):
