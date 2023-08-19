@@ -4,6 +4,7 @@ Helps stream bag data and apply bag writing capabilities.
 
 """
 
+import hashlib
 import heapq
 import os
 from argparse import Namespace
@@ -64,6 +65,9 @@ def read_messages(paths, topics=None, start_time=None, end_time=None):
             prev_time = time
 
 
+MD5_DEFAULT = str(hashlib.md5())
+
+
 def main(input_bags: 'list[str]', topics: 'list[str]', output_path: str, outbag_name: str, exists_ok: bool):
     try:
         full_bag_path = os.path.join(output_path, outbag_name+".bag")
@@ -77,15 +81,23 @@ def main(input_bags: 'list[str]', topics: 'list[str]', output_path: str, outbag_
         # open the output bag in an automatically closing context
         with Writer(full_bag_path) as output_bag:
             conn_map = {}
+            def read_messages_generator(): return read_messages(input_bags, topics=topics)
+            total = len(list(read_messages_generator()))
             # process messages across input bag(s)
-            for connection, timestamp, rawdata in read_messages(input_bags, topics=topics):
+            for connection, timestamp, rawdata in tqdm(read_messages_generator(), desc="Reading Bags", bar_format='{l_bar}{bar}{r_bar}', total=total):
+                # make dict for safe gets of connection attributes
                 try:
-                    # we're saving by topic, may cause an error if the md5sum changes
                     conn_map[connection.topic] = output_bag.add_connection(
-                        connection.topic, connection.msgtype, latching=connection.ext.latching)
+                        topic=connection.topic,
+                        msgtype=connection.msgtype,
+                        msgdef=connection.msgdef,
+                        # connection.digest found to be used in writer.py - > write_connection(..)
+                        md5sum=connection.digest,
+                        callerid=connection.ext.callerid,
+                        latching=connection.ext.latching)
                 except WriterError:
                     pass
-            for connection, timestamp, rawdata in read_messages(input_bags, topics=topics):
+            for connection, timestamp, rawdata in tqdm(read_messages_generator(), desc="Writing New Bag", bar_format='{l_bar}{bar}{r_bar}', total=total):
                 # write this message to the output bag
                 output_bag.write(
                     conn_map[connection.topic], timestamp, rawdata)
