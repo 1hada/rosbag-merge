@@ -92,7 +92,7 @@ def main(input_bags: 'list[str]', topics: 'list[str]', output_path: str, outbag_
                         msgtype=connection.msgtype,
                         msgdef=connection.msgdef,
                         # connection.digest found to be used in writer.py - > write_connection(..)
-                        md5sum=connection.digest,
+                        md5sum=connection.digest if hasattr(connection, 'digest') else connection.md5sum,
                         callerid=connection.ext.callerid,
                         latching=connection.ext.latching)
                 except WriterError:
