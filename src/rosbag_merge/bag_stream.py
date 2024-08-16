@@ -82,7 +82,10 @@ def main(input_bags: 'list[str]', topics: 'list[str]', output_path: str, outbag_
         with Writer(full_bag_path) as output_bag:
             conn_map = {}
             def read_messages_generator(): return read_messages(input_bags, topics=topics)
-            total = len(list(read_messages_generator()))
+            # total = len(list(read_messages_generator()))
+            total = 0
+            for i in read_messages_generator():
+                total = total + 1
             # process messages across input bag(s)
             for connection, timestamp, rawdata in tqdm(read_messages_generator(), desc="Reading Bags", bar_format='{l_bar}{bar}{r_bar}', total=total):
                 # make dict for safe gets of connection attributes
